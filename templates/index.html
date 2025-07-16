@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Escape Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Enter the Code to escape</h1>
+<form method="post" id="codeForm">
+    <input type="text" name="num1" maxlength="1" oninput="moveToNext(this, 'num2')" pattern="[0-9]" required>
+        <input type="text" name="num2" maxlength="1" oninput="moveToNext(this, 'num3')" pattern="[0-9]" required>
+        <input type="text" name="num3" maxlength="1" oninput="moveToNext(this, 'num4')" pattern="[0-9]" required>
+        <input type="text" name="num4" maxlength="1" pattern="[0-9]" required>
+        <br><br>
+    <button type="submit">Try code</button>
+</form>
+
+{% if failed == "False" %}
+   <div id="win">
+    <div class="win-content">
+        <img src="{{ url_for('static', filename='jumpscare.jpg') }}" alt="BOO!" />
+        <p class="jumpscare-text">🎉 YOU ESCAPED!</p>
+        <audio autoplay>
+            <source src="{{ url_for('static', filename='rickroll1.mp3') }}" type="audio/mpeg">
+        </audio>
+    </div>
+</div>
+{% endif %}
+
+{% if failed == "True" %}
+<div id="jumpscare">
+    <div class="jumpscare-content">
+        <img src="{{ url_for('static', filename='jumpscare.gif') }}" alt="BOO!" />
+        <p class="jumpscare-text">💀 TRY AGAIN, LOSER!</p>
+        <audio autoplay>
+            <source src="{{ url_for('static', filename='rickroll.mp3') }}" type="audio/mpeg">
+        </audio>
+    </div>
+</div>
+{% endif %}
+ <script>
+        function moveToNext(current, nextFieldName) {
+            if (current.value.length === 1) {
+                const next = document.getElementsByName(nextFieldName)[0];
+                if (next) {
+                    next.focus();
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
